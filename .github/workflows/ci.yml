@@ -1,0 +1,101 @@
+name: OPPE CI — Stock Movement Predictor
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write      
+  id-token: write
+
+env:
+  PYTHON_VERSION: "3.10"
+
+jobs:
+  test:
+    name: Fetch DVC Data & Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install CML             
+        run: npm install -g @dvcorg/cml
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Pull DVC data and model
+        run: dvc pull --force
+
+      - name: Verify data files
+        run: |
+          ls -lh data/
+          ls -lh models/
+
+      - name: Run pytest               
+        id: tests
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          pytest tests/ -v --tb=short | tee pytest.log
+        env:
+          PYTHONPATH: scripts
+
+      - name: Fetch champion model from MLflow and evaluate
+        env:
+          MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
+        run: python scripts/ci_evaluate.py
+
+      - name: Build report            
+        if: always()
+        run: |
+          echo "## Stock Movement Predictor CI Report" > report.md
+          echo '```' >> report.md
+          cat pytest.log >> report.md
+          echo '```' >> report.md
+          echo "### Evaluation Metrics" >> report.md
+          cat metrics.txt >> report.md
+
+      - name: Comment on PR with CML  # ← from Week 4
+        if: github.event_name == 'pull_request'
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: cml comment create report.md
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ci-artifacts
+          path: |
+            report.md
+            pytest.log
+          retention-days: 7
+
+      - name: Fail if tests failed   
+        if: steps.tests.outcome != 'success'
+        run: exit 1
