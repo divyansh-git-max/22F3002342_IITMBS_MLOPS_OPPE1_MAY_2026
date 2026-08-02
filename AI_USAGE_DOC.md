@@ -1,7 +1,7 @@
 # AI Usage Documentation
 **Student Roll Number:** 22f3002342  
-**Exam:** OPPE-1 Mock | MAY 2026  
-**Repo:** 22f3002342_IITMBS_MLOPS_OPPE1_MAY_2026_MOCK
+**Exam:** OPPE-1 | MAY 2026  
+**Repo:** 22f3002342_IITMBS_MLOPS_OPPE1_MAY_2026
 
 ---
 
