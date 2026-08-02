@@ -3,3 +3,7 @@ outs:
   size: 81705
   hash: md5
   path: model.pkl
+  cloud:
+    gcsremote:
+      etag: 08ea84ab8afe8196031001
+      version_id: '1785675087790698'
