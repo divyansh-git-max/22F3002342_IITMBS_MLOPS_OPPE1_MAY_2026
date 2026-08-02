@@ -1,0 +1,36 @@
+
+^
+>
+
+stock_nameStock ticker symbol"
+stock_nameJstock_predictor
+Óá¼ÓàÈ¸ºÓá¼ÓàÈ¸º
+F
+&
+__dummy"
+__dummy_idJstock_predictor
+Óá¼ÓàÈ¸ºÓá¼ÓàÈ¸º1"$1b513f28-77c5-44c7-a16d-1a45ea583fe7*˜ã¼Óˆé€L2ì
+Ë
+stock_featuresstock_predictor
+stock_name"
+rolling_avg_10"
+volume_sum_102€ù›:Óevent_timestampZusF:\mlops-iitm-assignments-2026-may-term\22F3002342_IITMBS_MLOPS_OPPE1_MAY_2026\data\features\stock_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢sF:\mlops-iitm-assignments-2026-may-term\22F3002342_IITMBS_MLOPS_OPPE1_MAY_2026\data\features\stock_features.parquet’Òá¼Ó€Õı³"Óá¼ÓğĞü¹b
+
+stock_name’latest
+Óá¼Ó ÍõºÓá¼Ó ÍõºR¾
+»
+,feast.infra.online_stores.sqlite.SqliteTable"Š
+hF:\mlops-iitm-assignments-2026-may-term\22F3002342_IITMBS_MLOPS_OPPE1_MAY_2026\feast_repo\data\online.dbstock_predictor_stock_featuresbåevent_timestampZusF:\mlops-iitm-assignments-2026-may-term\22F3002342_IITMBS_MLOPS_OPPE1_MAY_2026\data\features\stock_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢sF:\mlops-iitm-assignments-2026-may-term\22F3002342_IITMBS_MLOPS_OPPE1_MAY_2026\data\features\stock_features.parquetªstock_predictor’Òá¼Ó€Õı³"Óá¼ÓğĞü¹Š1
+
+stock_predictor
+Òá¼Óè¨µµÒá¼Óè¨µµ’Õ
+Ò
+stock_featuresstock_predictor"feature_view*ì
+Ë
+stock_featuresstock_predictor
+stock_name"
+rolling_avg_10"
+volume_sum_102€ù›:Óevent_timestampZusF:\mlops-iitm-assignments-2026-may-term\22F3002342_IITMBS_MLOPS_OPPE1_MAY_2026\data\features\stock_features.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢sF:\mlops-iitm-assignments-2026-may-term\22F3002342_IITMBS_MLOPS_OPPE1_MAY_2026\data\features\stock_features.parquet’Òá¼Ó€Õı³"Óá¼ÓğĞü¹b
+
+stock_name’latest
+Óá¼Ó ÍõºÓá¼Ó Íõº2Óá¼Ó¸Îï»B$67eac513-1569-4bbe-b85e-52d11a993c20
