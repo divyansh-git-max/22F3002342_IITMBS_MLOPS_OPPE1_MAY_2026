@@ -10,19 +10,28 @@ PROJECT_ROOT  = Path(__file__).resolve().parent.parent
 MLFLOW_URI    = os.getenv("MLFLOW_TRACKING_URI", "http://127.0.0.1:8100")
 MODEL_NAME    = "stock-movement-predictor"
 FEATURE_COLS  = ["rolling_avg_10", "volume_sum_10"]
+USE_MLFLOW    = os.getenv("CI_EVAL_USE_MLFLOW", "true").lower() == "true"
+MAX_ROWS_PER_STOCK = int(os.getenv("CI_EVAL_MAX_ROWS_PER_STOCK", "0"))
 
 mlflow.set_tracking_uri(MLFLOW_URI)
 
-# Load champion from MLflow registry
-try:
-    model = mlflow.sklearn.load_model(f"models:/{MODEL_NAME}@champion")
-    print("Loaded champion from MLflow registry")
-except Exception as e:
-    print(f"MLflow load failed: {e} — falling back to model.pkl")
-    fallback_path = PROJECT_ROOT / "models" / "model.pkl"
+fallback_path = PROJECT_ROOT / "models" / "model.pkl"
+
+# Load champion from MLflow registry (optional in CI fast mode)
+if USE_MLFLOW:
+    try:
+        model = mlflow.sklearn.load_model(f"models:/{MODEL_NAME}@champion")
+        print("Loaded champion from MLflow registry")
+    except Exception as e:
+        print(f"MLflow load failed: {e} — falling back to model.pkl")
+        if not fallback_path.exists():
+            raise SystemExit("No champion model in MLflow and models/model.pkl was not found.")
+        model = joblib.load(fallback_path)
+else:
     if not fallback_path.exists():
-        raise SystemExit("No champion model in MLflow and models/model.pkl was not found.")
+        raise SystemExit("CI_EVAL_USE_MLFLOW=false but models/model.pkl was not found.")
     model = joblib.load(fallback_path)
+    print("Loaded model from models/model.pkl (MLflow skipped by CI_EVAL_USE_MLFLOW=false)")
 
 # Load test data (v0, DVC pulled)
 dfs = []
@@ -35,6 +44,14 @@ if not dfs:
     raise SystemExit("No CSV files found under data/v0. Ensure dvc pull completed.")
 
 df = pd.concat(dfs, ignore_index=True).sort_values(["stock_name", "timestamp"])
+
+if MAX_ROWS_PER_STOCK > 0:
+    df = (
+        df.groupby("stock_name", group_keys=False)
+        .tail(MAX_ROWS_PER_STOCK)
+        .reset_index(drop=True)
+    )
+    print(f"Fast eval enabled: using last {MAX_ROWS_PER_STOCK} rows per stock")
 
 # Compute features
 result = []

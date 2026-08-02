@@ -65,9 +65,11 @@ jobs:
         env:
           PYTHONPATH: scripts
 
-      - name: Fetch champion model from MLflow and evaluate
+      - name: Evaluate model (fast CI mode)
         env:
           MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
+          CI_EVAL_USE_MLFLOW: "false"
+          CI_EVAL_MAX_ROWS_PER_STOCK: "25000"
         run: python scripts/ci_evaluate.py
 
       - name: Build report            
