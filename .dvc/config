@@ -1,0 +1,5 @@
+[core]
+    remote = gcsremote
+['remote "gcsremote"']
+    url = gs://dvc-oppe-22f3002342-actual/
+    version_aware = true

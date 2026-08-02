@@ -1,6 +1,18 @@
 outs:
-- md5: 7557615b1c4c13cf704219724b103ab2.dir
-  size: 39314623
-  nfiles: 2
-  hash: md5
+- hash: md5
   path: v0
+  files:
+  - relpath: AARTIIND__EQ__NSE__NSE__MINUTE.csv
+    md5: 5b6ea900b7ea18902676985d61090a24
+    size: 21570202
+    cloud:
+      gcsremote:
+        etag: 08c7b0e1d7ea8196031001
+        version_id: '1785669881452615'
+  - relpath: ABCAPITAL__EQ__NSE__NSE__MINUTE.csv
+    md5: bb6751721ed1e2b5bb86e2d25da8ebee
+    size: 17744421
+    cloud:
+      gcsremote:
+        etag: 08effbc5d4ea8196031001
+        version_id: '1785669874712047'

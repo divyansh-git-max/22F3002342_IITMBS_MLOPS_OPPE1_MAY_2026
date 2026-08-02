@@ -1,6 +1,25 @@
 outs:
-- md5: a2f3abe42ef309ec544db6a455d1570a.dir
-  size: 55653575
-  nfiles: 3
-  hash: md5
+- hash: md5
   path: v1
+  files:
+  - relpath: ABFRL__EQ__NSE__NSE__MINUTE.csv
+    md5: e3f488aab5062c43e2b67997c1b478b7
+    size: 21779460
+    cloud:
+      gcsremote:
+        etag: 08f0abd0a5eb8196031001
+        version_id: '1785670044751344'
+  - relpath: ADANIENT__EQ__NSE__NSE__MINUTE.csv
+    md5: 051e9db70cbdc6b4e4255a5ba3f813dd
+    size: 22166241
+    cloud:
+      gcsremote:
+        etag: 088983aaa5eb8196031001
+        version_id: '1785670044123529'
+  - relpath: ADANIGAS__EQ__NSE__NSE__MINUTE.csv
+    md5: 3f06f1e213926e74a09efb22d7d45437
+    size: 11707874
+    cloud:
+      gcsremote:
+        etag: 08d8bcada0eb8196031001
+        version_id: '1785670033694296'
